@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Rules
+
 The rows are arranged in a cross position. They are surrounded and connected with a circle of fields, over which the game pieces move in clockwise direction. There are three fields on each side of the board. At the beginning of the game, the players' pieces are placed in the four fields marked "B" on the far left side, the "out" section. The coloured field just left of centre, marked "A", is each player's "start" field. The white field just to the right of the start field leads to the "home" row, marked "a", "b", "c", "d". Each game piece enters the circle at the "start" field ("A"), moves (clockwise) over the board and finally enters the "home" row. The first player with all of their pieces in their "home" row wins the game.
 
 The players throw game dice in turn and can advance any of their pieces in the game by the thrown number of dots on the die.[2]
