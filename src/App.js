@@ -5,7 +5,7 @@ export default class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      player: { name: 'Ricardo', piece: 'Black', icon: '/black-pawn.png' },
+      player: { name: 'Ricardo', piece: 'Black', icon: '/black-pawn.png' }, // piece and icon are dynamic, loading screen you choose color
       board: [
         ['homeYellow', 'homeYellow', 'null', 'null', '', '', 'startGreen', 'null', 'null', 'homeGreen', 'homeGreen'],
         ['homeYellow', 'homeYellow', 'null', 'null', '', 'finishGreen1', '', 'null', 'null', 'homeGreen', 'homeGreen'],
@@ -21,9 +21,11 @@ export default class Board extends React.Component {
       ],
       dice: 0,
       diceRolled: false,
-      possibleMoves: []
+      // possibleMoves: [],
+      // turn: 0,
     }
     this.rollDice = this.rollDice.bind(this);
+
   }
 
   componentDidMount() {
@@ -48,16 +50,37 @@ export default class Board extends React.Component {
     }
   }
 
+  getStartCell(piece, board) {
+    // starterBlack = this.state.board[10][4];
+    // starterRed = this.state.board[6][10];
+    // starterYellow = this.state.board[4][0];
+    // starterGreen = this.state.board[0][6];
+    
+    if (piece.includes('Black')) {
+      return board[10][4];
+    }
+
+    if (piece.includes('Red')) {
+      return board[6][10];
+    }
+
+    if (piece.includes('Yellow')) {
+      return board[4][0];
+    }
+
+    if (piece.includes('Green')) {
+      return board[0][6];
+    }
+  }
+
   searchCorrectPlayerHome(val) {
     if (val.includes(`home${this.state.player.piece}`)) {
-      val = `home${this.state.player.piece}${this.state.player.name}`
+      val = `${this.state.player.piece}${this.state.player.name}`
     }
     return val
   }
 
   formatStringInBoard(val) {
-
-    console.log('Antes dos filtors val: ' + val)
 
     if (val === 'null' || val.includes('home')) {
       val = ''
@@ -81,14 +104,10 @@ export default class Board extends React.Component {
         val = 'd'
       }
     }
-    console.log('Depois dos filtors val: ' + val)
 
-    // TODO - resolver bug com o includes(home)
     if (val.includes(`${this.state.player.piece}${this.state.player.name}`)) {
       val = <img src={this.state.player.icon} alt="icon" height="30px" width="30px" />
     }
-
-    
 
     return val
   }
