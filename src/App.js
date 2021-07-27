@@ -53,6 +53,7 @@ export default class Board extends React.Component {
       const homeCells = this.getHomeCells(`${this.state.player.piece}`)
       const board = this.state.board
 
+      // justino 27/07 => lacks the code to not remove pieces from the player if opponent is in start cell of player
       for (let i = 0; i < homeCells.length; i++) {
         let cells = homeCells[i];
 
