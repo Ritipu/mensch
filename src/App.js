@@ -21,7 +21,7 @@ export default class Board extends React.Component {
       ],
       dice: 0,
       diceRolled: false,
-      possibleMoves: [],
+      // possibleMoves: [],
       // turn: 0,
     }
     this.rollDice = this.rollDice.bind(this);
@@ -47,28 +47,28 @@ export default class Board extends React.Component {
 
   rollDice() {
     const dice = Math.ceil(Math.random() * (7 - 1))
+    const startCell = this.getStartCell(`${this.state.player.piece}`)
+    const homeCells = this.getHomeCells(`${this.state.player.piece}`)
+    const board = this.state.board
 
     if (dice === 6) {
-      const startCell = this.getStartCell(`${this.state.player.piece}`)
-      const homeCells = this.getHomeCells(`${this.state.player.piece}`)
-      const board = this.state.board
-
       // justino 27/07 => lacks the code to not remove pieces from the player if opponent is in start cell of player
-      for (let i = 0; i < homeCells.length; i++) {
-        let cells = homeCells[i];
-
-        if (board[cells[0]][cells[1]] === `${this.state.player.piece}${this.state.player.name}`) {
-          console.log('Try:' + i)
-          board[cells[0]][cells[1]] = `home${this.state.player.piece}`;
-          break;
-        }
-      }
-
       if (board[startCell[0]][startCell[1]] === `start${this.state.player.piece}`) {
-        board[startCell[0]][startCell[1]] = `${this.state.player.piece}${this.state.player.name}` // 
-      }
 
-      console.log(board)
+        // remove piece from home
+        for (let i = 0; i < homeCells.length; i++) {
+          let cells = homeCells[i];
+  
+          if (board[cells[0]][cells[1]] === `${this.state.player.piece}${this.state.player.name}`) {
+            console.log('Try:' + i)
+            board[cells[0]][cells[1]] = `home${this.state.player.piece}`;
+            break;
+          }
+        }
+
+        // put piece in start position
+        board[startCell[0]][startCell[1]] = `${this.state.player.piece}${this.state.player.name}`
+      }
     }
 
     this.setState({
@@ -79,10 +79,10 @@ export default class Board extends React.Component {
   }
 
   getHomeCells(piece) {
-    // homeBlack = this.state.board[10][4];
-    // homeRed = this.state.board[6][10];
-    // homeYellow = this.state.board[4][0];
-    // homeGreen = this.state.board[0][6];
+    // homeBlack = this.state.board[[9, 0], [9, 1], [10, 0], [10, 1]];
+    // homeRed = this.state.board[[9, 9], [9, 10], [10, 9], [10, 10]];
+    // homeYellow = this.state.board[[0, 0], [0, 1], [1, 0], [1, 1]];
+    // homeGreen = this.state.board[[0, 9], [0, 10], [1, 9], [1, 10]];
 
     if (piece.includes('Black')) {
       const pos = [[9, 0], [9, 1], [10, 0], [10, 1]]
