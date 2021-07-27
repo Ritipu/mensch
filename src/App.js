@@ -46,35 +46,88 @@ export default class Board extends React.Component {
   }
 
   rollDice() {
+    const dice = Math.ceil(Math.random() * (7 - 1))
+
+    if (dice === 6) {
+      const startCell = this.getStartCell(`${this.state.player.piece}`)
+      const homeCells = this.getHomeCells(`${this.state.player.piece}`)
+      const board = this.state.board
+
+      for (let i = 0; i < homeCells.length; i++) {
+        let cells = homeCells[i];
+
+        if (board[cells[0]][cells[1]] === `${this.state.player.piece}${this.state.player.name}`) {
+          console.log('Try:' + i)
+          board[cells[0]][cells[1]] = `home${this.state.player.piece}`;
+          break;
+        }
+      }
+
+      if (board[startCell[0]][startCell[1]] === `start${this.state.player.piece}`) {
+        board[startCell[0]][startCell[1]] = `${this.state.player.piece}${this.state.player.name}` // 
+      }
+
+      console.log(board)
+    }
+
     this.setState({
-      dice: Math.ceil(Math.random() * (7 - 1)),
-      diceRolled: true
+      dice: dice,
+      // diceRolled: true
     })
 
-    if (this.state.dice === 6) {
+  }
+
+  getHomeCells(piece) {
+    // homeBlack = this.state.board[10][4];
+    // homeRed = this.state.board[6][10];
+    // homeYellow = this.state.board[4][0];
+    // homeGreen = this.state.board[0][6];
+
+    if (piece.includes('Black')) {
+      const pos = [[9, 0], [9, 1], [10, 0], [10, 1]]
+      return pos;
+    }
+
+    if (piece.includes('Red')) {
+      const pos = [[9, 9], [9, 10], [10, 9], [10, 10]]
+      return pos;
+    }
+
+    if (piece.includes('Yellow')) {
+      const pos = [[0, 0], [0, 1], [1, 0], [1, 1]]
+      return pos;
+    }
+
+    if (piece.includes('Green')) {
+      const pos = [[0, 9], [0, 10], [1, 9], [1, 10]]
+      return pos;
     }
   }
 
-  getStartCell(piece, board) {
+  getStartCell(piece) {
     // starterBlack = this.state.board[10][4];
     // starterRed = this.state.board[6][10];
     // starterYellow = this.state.board[4][0];
     // starterGreen = this.state.board[0][6];
-    
+
     if (piece.includes('Black')) {
-      return board[10][4];
+      const pos = [10, 4]
+      return pos;
     }
 
     if (piece.includes('Red')) {
-      return board[6][10];
+      const pos = [6, 10]
+      return pos;
     }
 
     if (piece.includes('Yellow')) {
-      return board[4][0];
+      const pos = [4, 0]
+      return pos;
     }
 
     if (piece.includes('Green')) {
-      return board[0][6];
+      const pos = [0, 6]
+      return pos;
     }
   }
 
