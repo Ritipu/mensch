@@ -21,7 +21,7 @@ export default class Board extends React.Component {
       ],
       dice: 0,
       diceRolled: false,
-      // possibleMoves: [],
+      possibleMoves: [],
       // turn: 0,
     }
     this.rollDice = this.rollDice.bind(this);
@@ -38,6 +38,11 @@ export default class Board extends React.Component {
         )
       })
     })
+  }
+
+  clickHandler(value, upperIndex, lowerIndex) {
+    console.log(value)
+    console.log(upperIndex, lowerIndex)
   }
 
   rollDice() {
@@ -136,7 +141,7 @@ export default class Board extends React.Component {
                 <tbody key={index}>
                   <tr key={index} className="row">
                     {
-                      value.map((val, ind) => <td key={ind} onClick={() => console.log(val)} className={
+                      value.map((val, ind) => <td key={ind} onClick={() => this.clickHandler(val, index, ind)} className={
                         val === 'null' ?
                           '' : val.includes('Black') ?
                             'cell-black' : val.includes('Green') ?
