@@ -21,7 +21,7 @@ export default class Board extends React.Component {
       ],
       dice: 0,
       diceRolled: false,
-      // possibleMoves: [],
+      possibleMoves: [],
       // turn: 0,
     }
     this.rollDice = this.rollDice.bind(this);
@@ -43,6 +43,25 @@ export default class Board extends React.Component {
   clickHandler(value, upperIndex, lowerIndex) {
     console.log(value)
     console.log(upperIndex, lowerIndex)
+
+    const board = this.state.board
+
+    if (value === `${this.state.player.piece}${this.state.player.name}`) {
+      // check directions
+      if (upperIndex !== 0 && lowerIndex === 4) {
+        const moveIndex = upperIndex - this.state.dice 
+        this.setState({possibleMoves: [moveIndex, lowerIndex]})
+      }
+    }
+
+    if (this.state.possibleMoves[0] === upperIndex && this.state.possibleMoves[1] === lowerIndex) {
+      
+      board[upperIndex][lowerIndex] = `${this.state.player.piece}${this.state.player.name}`
+      this.setState({
+        diceRolled: false
+      })
+      
+    }
   }
 
   rollDice() {
