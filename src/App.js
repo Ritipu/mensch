@@ -65,7 +65,7 @@ export default class Board extends React.Component {
 
     if (this.state.possibleMoves[0] === upperIndex && this.state.possibleMoves[1] === lowerIndex) {
       board[upperIndex][lowerIndex] = `${this.state.player.piece}${this.state.player.name}`
-      board[this.state.playerPos[0]][this.state.playerPos[1]] = `start${this.state.player.piece}`
+      board[this.state.playerPos[0]][this.state.playerPos[1]] = `start${this.state.player.piece}` // need to change the end value to dynamically reflect the correct cell
       this.setState({
         diceRolled: false
       })
