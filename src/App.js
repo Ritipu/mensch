@@ -22,7 +22,8 @@ export default class Board extends React.Component {
       dice: 0,
       diceRolled: false,
       possibleMoves: [],
-      // turn: 0,
+      playerPos: [],
+      // turn: black / red / green / yellow,
     }
     this.rollDice = this.rollDice.bind(this);
 
@@ -40,28 +41,36 @@ export default class Board extends React.Component {
     })
   }
 
+  getPossibleMoves(upperIndex, lowerIndex) {
+    if ((upperIndex > 6 || upperIndex <= 4) && lowerIndex === 4) {
+      const moveIndex = upperIndex - this.state.dice 
+      return this.setState({
+        possibleMoves: [moveIndex, lowerIndex],
+        playerPos: [upperIndex, lowerIndex]
+      })
+
+    }
+  }
+
   clickHandler(value, upperIndex, lowerIndex) {
     console.log(value)
     console.log(upperIndex, lowerIndex)
 
-    const board = this.state.board
+    const board = this.state.board;
 
     if (value === `${this.state.player.piece}${this.state.player.name}`) {
-      // check directions
-      if (upperIndex !== 0 && lowerIndex === 4) {
-        const moveIndex = upperIndex - this.state.dice 
-        this.setState({possibleMoves: [moveIndex, lowerIndex]})
-      }
+      // getPossibleMoves
+      this.getPossibleMoves(upperIndex, lowerIndex)
     }
 
     if (this.state.possibleMoves[0] === upperIndex && this.state.possibleMoves[1] === lowerIndex) {
-      
       board[upperIndex][lowerIndex] = `${this.state.player.piece}${this.state.player.name}`
+      board[this.state.playerPos[0]][this.state.playerPos[1]] = `start${this.state.player.piece}`
       this.setState({
         diceRolled: false
       })
-      
     }
+
   }
 
   rollDice() {
@@ -74,12 +83,11 @@ export default class Board extends React.Component {
       // justino 27/07 => lacks the code to not remove pieces from the player if opponent is in start cell of player
       if (board[startCell[0]][startCell[1]] === `start${this.state.player.piece}`) {
 
-        // remove piece from home
+        // remove piece automatically from home
         for (let i = 0; i < homeCells.length; i++) {
           let cells = homeCells[i];
   
           if (board[cells[0]][cells[1]] === `${this.state.player.piece}${this.state.player.name}`) {
-            console.log('Try:' + i)
             board[cells[0]][cells[1]] = `home${this.state.player.piece}`;
             break;
           }
@@ -96,6 +104,8 @@ export default class Board extends React.Component {
     })
 
   }
+
+
 
   getHomeCells(piece) {
     // homeBlack = this.state.board[[9, 0], [9, 1], [10, 0], [10, 1]];
